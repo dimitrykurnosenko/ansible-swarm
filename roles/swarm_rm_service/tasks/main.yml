@@ -1,0 +1,6 @@
+---
+
+- name: remove service nginx
+  docker_swarm_service:
+      name: nginx
+      state: absent

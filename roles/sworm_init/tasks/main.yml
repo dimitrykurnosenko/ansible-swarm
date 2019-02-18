@@ -1,0 +1,21 @@
+---
+
+- name: Init a new swarm with default parameters
+  docker_swarm:
+    state: present
+
+- name: Inspect swarm
+  docker_swarm:
+    state: inspect
+  register: swarm_info
+
+- name: Log into private registry
+  docker_login:
+    registry: www.centos3.loc:443
+    username: admin
+    password: admin123
+
+- debug:
+    msg: "{{ swarm_info.swarm_facts.JoinTokens.Worker }}"
+
+...

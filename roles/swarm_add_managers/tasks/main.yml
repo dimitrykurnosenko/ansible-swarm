@@ -1,0 +1,29 @@
+---
+
+- name: Install pip (centos)
+  yum:
+    name: python-pip
+    state: present
+
+- name: Install docker-py
+  pip:
+   name: docker
+   state: presentz
+
+- name: Add manager
+  docker_swarm:
+    state: join
+    advertise_addr: "{{ ansible_default_ipv4.address }}"
+    join_token: "{{ hostvars['main-server'].swarm_info.swarm_facts.JoinTokens.Manager }}"
+    remote_addrs: [ "{{ hostvars['main-server'].ansible_default_ipv4.address }}:2377" ]
+
+- name: Log into private registry
+  docker_login:
+    registry: www.centos3.loc:443
+    username: admin
+    password: admin123
+
+#- debug:
+#    msg: "{{ hostvars['main-server'].swarm_info.swarm_facts.JoinTokens.Manager }} {{ hostvars['main-server'].ansible_default_ipv4.address }}:2377"
+
+...

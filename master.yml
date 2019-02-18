@@ -1,0 +1,24 @@
+---
+
+- name: ansible swarm
+  hosts: control
+  roles:
+    - sworm_init
+
+- name: add managers
+  hosts: managers
+  roles:
+    - swarm_add_managers
+
+
+- name: add workers
+  hosts: workers
+  roles:
+    - swarm_add_workers
+
+- name: create service
+  hosts: control
+  roles:
+    - swarm_service
+
+...

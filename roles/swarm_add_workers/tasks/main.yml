@@ -1,0 +1,29 @@
+---
+
+- name: Install pip (ubuntu)
+  apt:
+    name: python-pip
+    state: present
+
+- name: Install docker-py
+  pip:
+   name: docker
+   state: present
+
+- name: Add worker
+  docker_swarm:
+    state: join
+    advertise_addr: "{{ ansible_default_ipv4.address }}"
+    join_token: "{{ hostvars['main-server'].swarm_info.swarm_facts.JoinTokens.Worker }}"
+    remote_addrs: [ "{{ hostvars['main-server'].ansible_default_ipv4.address }}:2377" ]
+
+- name: Log into private registry
+  docker_login:
+    registry: www.centos3.loc:443
+    username: admin
+    password: admin123
+
+- debug:
+    msg: "{{ hostvars['main-server'].swarm_info.swarm_facts.JoinTokens.Worker }} {{ hostvars['main-server'].ansible_default_ipv4.address }}:2377"
+
+...

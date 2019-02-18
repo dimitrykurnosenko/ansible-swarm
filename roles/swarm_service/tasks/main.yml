@@ -1,0 +1,16 @@
+---
+
+- name: define service nginx
+  docker_swarm_service:
+    name: nginx
+    image: "www.centos3.loc:443/nginx"
+    replicas: 6
+    restart_policy: any
+    restart_policy_attempts: 5
+    restart_policy_window: 30
+  register: dss_out1
+
+- debug:
+    msg: "{{ dss_out1  }}"
+
+...

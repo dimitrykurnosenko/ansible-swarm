@@ -1,0 +1,8 @@
+---
+
+- name: ansible swarm rm service
+  hosts: control
+  roles:
+    - swarm_rm_service
+
+...
